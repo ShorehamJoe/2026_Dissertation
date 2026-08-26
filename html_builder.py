@@ -1,9 +1,4 @@
-"""
-html_builder.py
-===============
-Assembles the complete self-contained HTML dashboard.
-Includes the 5-year forecast panel with Chart.js visualisations.
-"""
+
 import json, logging
 from uk_housing_dashboard.data.datasets import (
     REGIONAL, HPI, COHORTS, HPI_TREND, HPI_YEARS,
