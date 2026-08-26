@@ -1,21 +1,4 @@
-"""
-evaluation.py
-=============
-User evaluation form for Objective 5 of the dissertation.
 
-Collects structured feedback from evaluators (financial advisers,
-housing policy researchers, prospective buyers) and saves responses
-to a local JSON file for analysis.
-
-Evaluation instrument design based on:
-  - Nielsen's usability heuristics (10 principles)
-  - Technology Acceptance Model (TAM) - perceived usefulness & ease of use
-  - Custom housing-domain questions aligned to dissertation research question
-
-Usage:
-    Responses are collected inside the dashboard HTML.
-    Run analyse_responses() to generate a summary report.
-"""
 
 import json
 import os
@@ -24,13 +7,9 @@ import datetime
 EVAL_DIR  = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "evaluation_data")
 EVAL_FILE = os.path.join(EVAL_DIR, "responses.json")
 
-# ---------------------------------------------------------------------------
-# EVALUATION QUESTIONS
-# Mapped to dissertation objectives and TAM constructs
-# ---------------------------------------------------------------------------
 
 QUESTIONS = [
-    # --- Section A: Evaluator profile ---
+
     {
         "id":       "role",
         "section":  "Your profile",
@@ -52,7 +31,7 @@ QUESTIONS = [
         "options":  ["Gen Z (18-27)", "Millennials (28-43)", "Gen X (44-59)", "Baby Boomers (60-78)"],
     },
 
-    # --- Section B: Perceived usefulness (TAM) ---
+
     {
         "id":       "useful_overall",
         "section":  "Usefulness",
@@ -90,7 +69,7 @@ QUESTIONS = [
         "construct": "TAM-PU",
     },
 
-    # --- Section C: Ease of use (TAM) ---
+
     {
         "id":       "ease_navigation",
         "section":  "Ease of use",
@@ -119,7 +98,7 @@ QUESTIONS = [
         "construct": "TAM-PEOU",
     },
 
-    # --- Section D: Research-specific questions ---
+  
     {
         "id":       "gap_evidence",
         "section":  "Research findings",
@@ -155,7 +134,7 @@ QUESTIONS = [
         ],
     },
 
-    # --- Section E: Open feedback ---
+
     {
         "id":      "improvements",
         "section": "Open feedback",
@@ -171,9 +150,6 @@ QUESTIONS = [
 ]
 
 
-# ---------------------------------------------------------------------------
-# SAVE RESPONSE (called from dashboard JS via embedded endpoint simulation)
-# ---------------------------------------------------------------------------
 
 def save_response(response_data: dict) -> str:
     """
@@ -187,7 +163,6 @@ def save_response(response_data: dict) -> str:
     """
     os.makedirs(EVAL_DIR, exist_ok=True)
 
-    # Load existing responses
     responses = []
     if os.path.exists(EVAL_FILE):
         try:
@@ -196,7 +171,6 @@ def save_response(response_data: dict) -> str:
         except Exception:
             responses = []
 
-    # Add metadata
     response_id = f"R{len(responses)+1:03d}"
     response_data["_id"]        = response_id
     response_data["_timestamp"] = datetime.datetime.now().isoformat()
@@ -208,9 +182,7 @@ def save_response(response_data: dict) -> str:
     return response_id
 
 
-# ---------------------------------------------------------------------------
-# ANALYSIS REPORT
-# ---------------------------------------------------------------------------
+
 
 def analyse_responses() -> dict:
     """
@@ -234,7 +206,7 @@ def analyse_responses() -> dict:
     print(f"  EVALUATION SUMMARY  ({n} response{'s' if n!=1 else ''})")
     print(f"{'='*55}")
 
-    # Scale question averages
+  
     scale_qs = [q for q in QUESTIONS if q["type"] == "scale"]
     print("\n  Likert scale averages (1=strongly disagree, 5=strongly agree):\n")
 
@@ -248,7 +220,7 @@ def analyse_responses() -> dict:
         print(f"  {q['id']:<28}  {avg:.2f}/5  [{bar:<20}]")
         scale_summary[q["id"]] = {"mean": round(avg, 2), "n": len(vals)}
 
-    # Radio question distributions
+   
     radio_qs = [q for q in QUESTIONS if q["type"] == "radio"]
     print("\n  Multiple choice distributions:\n")
 
@@ -265,7 +237,6 @@ def analyse_responses() -> dict:
                 print(f"    {opt:<40}  {count} ({pct:.0f}%)")
         radio_summary[q["id"]] = counts
 
-    # Open text (just count non-empty)
     text_qs = [q for q in QUESTIONS if q["type"] == "textarea"]
     print("\n  Open text responses:\n")
     for q in text_qs:
@@ -282,9 +253,6 @@ def analyse_responses() -> dict:
     return {"n": n, "scale": scale_summary, "radio": radio_summary}
 
 
-# ---------------------------------------------------------------------------
-# HTML FORM (embedded in dashboard)
-# ---------------------------------------------------------------------------
 
 def build_eval_form_html(existing_count: int = 0) -> str:
     """Build the evaluation form HTML for embedding in the dashboard."""
