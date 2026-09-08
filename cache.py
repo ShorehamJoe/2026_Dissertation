@@ -1,6 +1,17 @@
-"""cache.py - Network fetch with TTL-based local cache."""
+
 import os, time, logging
 from uk_housing_dashboard.config import CACHE_DIR, CACHE_TTL_DAYS
+
+import os
+
+CACHE_DIR = ".cache"
+_CACHE = {}
+
+def get(key):
+    return _CACHE.get(key)
+
+def set(key, value):
+    _CACHE[key] = value
 
 log  = logging.getLogger(__name__)
 _TTL = CACHE_TTL_DAYS * 86400
