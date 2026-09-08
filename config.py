@@ -56,3 +56,9 @@ CACHE_TTL_DAYS  = 30
 
 # ── ML model ─────────────────────────────────────────────────────────────
 ML_TEST_SIZE    = 0.2
+
+BOOTSTRAP_SAMPLES    = 1000
+SYNTH_PER_CELL       = 50
+SYNTH_LOGNORMAL_SIGMA = 0.15
+OUTPUTS_DIR          = "outputs"
+MODEL_CACHE_TTL_DAYS = 7
