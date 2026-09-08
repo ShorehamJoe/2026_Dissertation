@@ -37,3 +37,22 @@ _ROOT       = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR   = os.path.join(_ROOT, ".map_cache")
 OUTPUTS_DIR = os.path.join(_ROOT, "outputs")
 EVAL_DIR    = os.path.join(_ROOT, "evaluation_data")
+
+# ── Land Registry live data ───────────────────────────────────────────────
+LR_MONTHLY_URL  = "https://prod.publicdata.landregistry.gov.uk.s3-website-eu-west-1.amazonaws.com/pp-monthly-update-new-version.csv"
+LR_COLUMNS      = ["transaction_id", "price", "date", "postcode", "property_type",
+                   "old_new", "duration", "paon", "saon", "street", "locality",
+                   "town", "district", "county", "ppd_type", "record_status"]
+LR_PROPERTY_MAP = {"D": "Detached", "S": "Semi-Detached", "T": "Terraced", "F": "Flat"}
+LR_MIN_YEAR     = 2015
+LR_PRICE_LOW    = 10_000
+LR_PRICE_HIGH   = 5_000_000
+LR_DATA_PATH    = "evaluation_data"
+LR_CSV_PATH     = "evaluation_data/land_registry.csv"
+
+# ── Cache ─────────────────────────────────────────────────────────────────
+CACHE_DIR       = ".cache"
+CACHE_TTL_DAYS  = 30
+
+# ── ML model ─────────────────────────────────────────────────────────────
+ML_TEST_SIZE    = 0.2
