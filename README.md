@@ -126,7 +126,7 @@ python -m doctest uk_housing_dashboard/utils/calculators.py -v
 
 ## Ethics
 
-UREC1 form completed (no human participants in data collection).
+UREC2 form completed.
 Evaluation form: no personally identifiable information collected.
 All data stored locally. GDPR compliant.
 AI tool use declared at AITS Level 2 (AI for Shaping).
